@@ -69,15 +69,15 @@ def show_all():
     resp.set_cookie('set_show','',max_age=60*60*24*30)
     return resp
 
-@login_required
 @main.route('/profile/<username>')
+@login_required
 def get_user(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('profile.html',user=user)
 
+@main.route('/set_disabled/<int:comment_id>')
 @login_required
 @permission_required(Permission.MODERATE)
-@main.route('/set_disabled/<int:comment_id>')
 def set_disabled(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     comment.disabled = True
@@ -85,9 +85,9 @@ def set_disabled(comment_id):
     db.session.commit()
     return redirect(url_for('main.get_post',post_id=comment.post_id))
 
-@login_required
-@permission_required(Permission.MODERATE)
 @main.route('/cancel_disabled/<int:comment_id>')
+@permission_required(Permission.MODERATE)
+@login_required
 def cancel_disabled(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     comment.disabled = False
@@ -95,8 +95,8 @@ def cancel_disabled(comment_id):
     db.session.commit()
     return redirect(url_for('main.get_post',post_id=comment.post_id))
 
-@login_required
 @main.route('/edit-profile',methods=['GET','POST'])
+@login_required
 def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
@@ -114,9 +114,9 @@ def edit_profile():
     form.sex.data = current_user.sex_id
     return render_template('edit_profile.html',form=form)
 
+@main.route('/delete_post/<int:post_id>')
 @permission_required(Permission.WRITE)
 @login_required
-@main.route('/delete_post/<int:post_id>')
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     db.session.delete(post)
@@ -124,8 +124,8 @@ def delete_post(post_id):
     flash('删除成功~~')
     return redirect(url_for('.index'))
 
-@login_required
 @main.route('/upload_photo',methods=['GET','POST'])
+@login_required
 def change_photo():
     if request.method == 'POST':
         img = request.files.get('photo')
