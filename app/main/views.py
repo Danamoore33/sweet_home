@@ -148,7 +148,6 @@ def change_photo(username):
         db.session.commit()
         flash('图片上传成功')
         return redirect(url_for('.get_user',username=user.username))
-    return render_template('change_photo.html',user=user)
 
 @main.route('/follow/<username>')
 @login_required
