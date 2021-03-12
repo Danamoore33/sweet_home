@@ -64,7 +64,7 @@ def verify_account(token):
 @auth.before_app_request
 @auth.route('/unconfirm')
 def before_request():
-    if 'Python' in request.headers.get('User-Agent'):
+    if 'python' in request.headers.get('User-Agent').lower():
         return render_template('404.html')
     if current_user.is_authenticated:
         current_user.ping()

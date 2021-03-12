@@ -22,6 +22,7 @@ class UserModelTestCase(unittest.TestCase):
         db.session.commit()
         role = Role.query.filter_by(name='User').first()
         sex = Sex.query.filter_by(name='未知').first()
+        self.assertIsNotNone(user.password_hash)
         self.assertTrue(user.password_hash != user2.password_hash)
         self.assertTrue(user.role == role)
         self.assertTrue(user.sex == sex)
