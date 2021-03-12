@@ -1,0 +1,21 @@
+<ul class="posts">
+    {% for post in posts %}
+        <li class="post">
+            <a href="{{ url_for('main.get_user',username=post.author.username) }}">
+                <img class="img-rounded img-position" src="{{ url_for('static',filename=post.author.avatar_hash) }}" height=40 width="40">
+            </a>
+            <div class="post-time">{{ moment(post.timestamp).fromNow(refresh=True) }}</div>
+            <div class="post-author">
+                <a href="{{ url_for('main.get_user',username=post.author.username) }}">
+                    {{ post.author.username }}
+                </a>
+                <div><a class="post-body" href="{{ url_for('main.get_post',post_id=post.id) }}#comment">{{ post.body }}</a></div>
+            </div>
+            {% if current_user == post.author or current_user.is_admin() %}
+            <div class="btn-right">
+                <a href="{{ url_for('main.delete_post',post_id=post.id) }}"><span class="label label-danger">delete</span></a>
+            </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

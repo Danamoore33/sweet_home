@@ -1,0 +1,39 @@
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <a href="{{ url_for('main.get_user',username=comment.author.username) }}">
+            <img class="img-rounded img-position" src="{{ url_for('static',filename=comment.author.avatar_hash) }}" height="40" width="40">
+        </a>
+        <div class="comment-time">{{ moment(comment.timestamp).fromNow(refresh=True)}}</div>
+        <div class="comment-author">
+            <a href="{{ url_for('main.get_user',username=comment.author.username) }}">
+                {{ comment.author.username }}
+            </a>
+            <div class="comment-body">
+                {% if not comment.disabled %}
+                    {% if comment.body_html %}
+                        {{ comment.body_html | safe }}
+                    {% else %}
+                        {{ comment.body }}
+                    {% endif %}
+                {% else %}
+                    <p><i>该评论违反了网站与国家相关规定,已依法予以屏蔽</i></p>
+                {% endif %}
+            </div>
+        </div>
+        {% if current_user.can(Permission.MODERATE) %}
+        <div class="comment-disabled">
+            {% if not comment.disabled %}
+            <a class="btn btn-success btn-xs" href="{{ url_for('main.set_disabled',comment_id=comment.id) }}"><small>
+                禁言</small>
+            </a>
+            {% else %}
+            <a class="btn btn-success btn-xs" href="{{ url_for('main.cancel_disabled',comment_id=comment.id) }}"><small>
+                言论自由</small>
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>

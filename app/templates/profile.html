@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Sweet Home - Profile{% endblock %}
+
+{% block page %}
+<div class="page-header">
+    <img class="img-rounded img-position" src="{{ url_for('static',filename=user.avatar_hash) }}" height=120 width="120">
+    <div class="profile-header">
+        <p>用户名: <b>{{ user.username }}</b></p>
+        {% if user.user %}<p>真实姓名: <b>{{ user.user }}</b></p>{% endif %}
+        {% if user.sex %}<p>性别: <b>{{ user.sex.name }}</b></p>{% endif %}
+        {% if user.location %}<p>地区: <a href="https://ditu.amap.com/search?query={{ user.location }}">{{ user.location }}</a></p>{% endif %}
+        {% if user.about_me %}<p>个性签名: <b>{{ user.about_me }}</b></p>{% endif %}
+        <p>最后活跃时间 {{ moment(user.last_seen).format('LLL') }}</p>
+        {% if current_user.can(Permission.FOLLOW) and user != current_user %}
+            {% if not current_user.is_following(user) %}
+            <a href="{{ url_for('main.follow',username=user.username) }}" class="btn btn-success">关注他(她)</a>
+            {% else %}
+            <a href="{{ url_for('main.unfollow',username=user.username) }}" class="btn btn-danger">已关注</a>
+            {% endif %}
+        {% endif %}
+        <a href="{{ url_for('main.followers',username=user.username) }}">关注
+            <span class="badge"> {{ user.followers.count() }}</span>
+        </a>
+        <a href="{{ url_for('main.followed_by',username=user.username) }}">粉丝
+            <span class="badge"> {{ user.followed.count() }}</span>
+        </a>
+        {% if current_user == user or current_user.is_admin() %}
+        <a href="{{ url_for('main.edit_profile') }}" class="btn btn-default">修改</a>
+        <a href="{{ url_for('main.change_photo') }}" class="btn btn-success shadow-span"><span class="glyphicon glyphicon-user"></span> 更换头像</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

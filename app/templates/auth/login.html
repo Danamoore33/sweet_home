@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}Sweet Home - Login{% endblock %}
+
+{% block page %}
+<div class="page-header">
+    <h3>登录</h3>
+</div>
+<div class="col-md-4">
+    <p>还没有账号?<a href="{{ url_for('auth.register') }}">点我</a>注册</p>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

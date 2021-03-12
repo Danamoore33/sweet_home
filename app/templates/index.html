@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% import '_macros.html' as macros %}
+
+{% block title %}Sweet Home{% endblock %}
+
+{% block page %}
+<div class="page-header">
+    {% if current_user.can(Permission.WRITE) %}
+    {{ wtf.quick_form(form) }}
+    {% endif %}
+</div>
+<div>
+    <ul class="nav nav-tabs">
+        <li{% if not set_show %} class="active" {% endif %}><a href="{{ url_for('main.show_all') }}">All</a></li>
+        {% if current_user.is_authenticated %}
+        <li{% if set_show %} class="active" {% endif %}><a href="{{ url_for('main.follower_posts') }}">我的关注</a></li>
+        {% endif %}
+    </ul>
+    {% include '_posts.html' %}
+</div>
+{% if pagination %}
+<div>
+    {{ macros.pagination_widget(pagination,'main.index') }}
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1"
+</head>
+<body>
+<p>Dear <em>{{ user.username }}</em>:</p>
+<div style="margin: 3px 10px 3px 10px;">
+    <p>欢迎来到 Sweet Home!</p>
+    <a href="{{ url_for('auth.verify_account',token=token,_external=True) }}">
+        <button type="button" style="color:#FFFFFF;background-color:#FF00FF;border-radius:10px;text-align:center;width:65px;height:20px;">Log In</button>
+    </a>
+    <p>The Sweet Home Team
+    <small>
+         note:无需回复此邮件
+    </small>
+    </p>
+</div>
+</body>
+</html>

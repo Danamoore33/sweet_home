@@ -1,0 +1,93 @@
+.navbar-sweet{
+    background-color: #6600FF;
+    }
+.navbar-logo a{
+    color: #FF00FF;
+    }
+.navbar-links li a{
+    color: #FF00FF;
+    }
+.navbar-links li a:hover{
+    background-color: #6600FF;
+    color: #FFCC66;
+    }
+.navbar-spans span{
+    background-color: #FF00FF;
+    }
+.navbar-spans span:hover{
+    background-color: #6600FF;
+    color: #FFCC66;
+    }
+.dropdown-menu{
+    background-color: #6600FF;
+    }
+.posts{
+    list-style-type: none;
+    margin: 5px 10px 5px 10px;
+    padding: 0px;
+    }
+.posts .post{
+    margin-bottom: 8px;
+    border-bottom: 1px solid #CCCCFF;
+    }
+.posts .post-author{
+    margin-left: 48px;
+    }
+.posts .post-body{
+    font-size: 80%;
+    color: #CC66FF;
+    min-height: 20px;
+    }
+.posts .post-time{
+    float: right;
+    }
+.img-position{
+    position: absolute;
+    }
+.profile-header{
+    margin-left: 130px;}
+.btn-right{
+    text-align: right;
+    }
+.photo-img{
+    position: absolute;
+    clip: rect(0 0 0 0);
+    }
+.photo-btn{
+    margin-left: 310px;
+    }
+.table.followers tr{
+    border-bottom: 1px solid #FF00FF;
+    }
+.comments-form{
+    margin-left: 40px;
+    }
+.comments{
+    list-style-type: none;
+    margin: 5px 10px 5px 10px;
+    padding: 0px;
+    }
+.comments .comment{
+    margin-bottom: 8px;
+    border-bottom: 1px solid #CCCCFF;
+    }
+.comments .comment-author{
+    margin-left: 48px;
+    }
+.comments .comment-body{
+    font-size: 80%;
+    color: #CC66FF;
+    min-height: 20px;
+    }
+.comments .comment-time{
+    float: right;
+    }
+.comments .comment-disabled{
+    margin-left: 48px;
+    }
+.posts .post:hover{
+    background-color: #FAEBD7;
+    }
+.shadow-span{
+    text-shadow:5px 3px 3px #00FFFF;
+    }
