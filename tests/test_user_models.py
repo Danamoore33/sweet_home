@@ -25,4 +25,8 @@ class UserModelTestCase(unittest.TestCase):
         self.assertTrue(user.password_hash != user2.password_hash)
         self.assertTrue(user.role == role)
         self.assertTrue(user.sex == sex)
+        with self.assertRaises(AttributeError):
+            user2.password
+
+
 
