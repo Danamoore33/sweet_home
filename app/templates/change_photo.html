@@ -6,7 +6,7 @@
 <div class="page-header">
     <h3>更换头像</h3>
 </div>
-<form method="post" action="{{ url_for('main.change_photo') }}" enctype="multipart/form-data">
+<form method="post" action="{{ url_for('main.change_photo',username=user.username) }}" enctype="multipart/form-data">
     <label for="Xfile"><img src="{{ url_for('static',filename='upload.gif') }}"  title='上传图片' height="260" width="300" class="img-position img-rounded"></label>
     <input type="file" class="photo-img" id="Xfile" accept="image/*" name="photo">
     <br>

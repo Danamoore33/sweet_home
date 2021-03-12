@@ -95,23 +95,24 @@ def cancel_disabled(comment_id):
     db.session.commit()
     return redirect(url_for('main.get_post',post_id=comment.post_id))
 
-@main.route('/edit-profile',methods=['GET','POST'])
+@main.route('/edit-profile/<username>',methods=['GET','POST'])
 @login_required
-def edit_profile():
+def edit_profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
     form = EditProfileForm()
     if form.validate_on_submit():
-        current_user.user = form.name.data
-        current_user.sex = Sex.query.get(form.sex.data)
-        current_user.location = form.location.data
-        current_user.about_me = form.about_me.data
-        db.session.add(current_user._get_current_object())
+        user.user = form.name.data
+        user.sex = Sex.query.get(form.sex.data)
+        user.location = form.location.data
+        user.about_me = form.about_me.data
+        db.session.add(user)
         db.session.commit()
         flash('你的个人信息修改成功了')
-        return redirect(url_for('.get_user',username=current_user.username))
-    form.name.data = current_user.user
-    form.location.data = current_user.location
-    form.about_me.data = current_user.about_me
-    form.sex.data = current_user.sex_id
+        return redirect(url_for('.get_user',username=user.username))
+    form.name.data = user.user
+    form.location.data = user.location
+    form.about_me.data = user.about_me
+    form.sex.data = user.sex_id
     return render_template('edit_profile.html',form=form)
 
 @main.route('/delete_post/<int:post_id>')
@@ -124,29 +125,30 @@ def delete_post(post_id):
     flash('删除成功~~')
     return redirect(url_for('.index'))
 
-@main.route('/upload_photo',methods=['GET','POST'])
+@main.route('/upload_photo/<username>',methods=['GET','POST'])
 @login_required
-def change_photo():
+def change_photo(username):
+    user = User.query.filter_by(username=username).first_or_404()
     if request.method == 'POST':
         img = request.files.get('photo')
         filenameSplit = [f for f in img.filename.split('.')]
         if filenameSplit[-1] not in current_app.config['ALLOW_PHOTO_FMT']:
             flash('不支持的图片格式')
-            return redirect(url_for('.get_user',username=current_user.username))
+            return redirect(url_for('.get_user',username=user.username))
         photo_name = ''.join(re.findall('\d+',str(datetime.utcnow())))+str(random.randint(0,99))+'.'+filenameSplit[-1]
         _path = current_app.config['ALL_UPLOAD_DIR'] + photo_name
         img.save(_path)
-        if current_user.avatar_hash != current_app.config['BASE_PHOTO_PATH']:
+        if user.avatar_hash != current_app.config['BASE_PHOTO_PATH']:
             try:
-                os.remove(current_app.config['LOCAL_IMG_PATH']+current_user.avatar_hash)
+                os.remove(current_app.config['LOCAL_IMG_PATH']+user.avatar_hash)
             except:
                 pass
-        current_user.avatar_hash = current_app.config['UPLOAD_DIR'] + photo_name
-        db.session.add(current_user._get_current_object())
+        user.avatar_hash = current_app.config['UPLOAD_DIR'] + photo_name
+        db.session.add(user)
         db.session.commit()
         flash('图片上传成功')
-        return redirect(url_for('.get_user',username=current_user.username))
-    return render_template('change_photo.html')
+        return redirect(url_for('.get_user',username=user.username))
+    return render_template('change_photo.html',user=user)
 
 @main.route('/follow/<username>')
 @login_required
